@@ -14,6 +14,7 @@ def charge(request):
     if request.method == 'POST':
         print('Information:', request.POST)
 
+        # Stripe only accepts int values
         amount = int(request.POST['amount'])
 
         customer = stripe.Customer.create(
@@ -24,10 +25,8 @@ def charge(request):
 
         charge = stripe.Charge.create(
             customer = customer,
-            
-            # stripe goes by cents so if input amount if 5, stripe reads as 5 cents. Minimum amount of $0.50
             amount = amount * 100,
-            currency = "cad",
+            currency = "usd",
             description = "Donation"
             )
 
